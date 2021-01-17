@@ -132,6 +132,8 @@ input,span{
     background-color: #E91E63;
     margin-bottom:3px ;
     cursor: pointer;
+    width: 31px;
+    height: 35px;
     transition: all .3s ease-in-out;
 }
 .deleteBtn:hover{
