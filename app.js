@@ -16,61 +16,79 @@ userInput.addEventListener('keypress', function () {
 })
 
 //Add Tasks
+function doIt() {
+    let newList = document.createElement('li');
+    let listP = document.createElement('label');
+    let deleted = document.createElement('span');
+    let check = document.createElement('span');
+    let deletedText = document.createTextNode('X')
+    let checkDone = document.createTextNode('Complete')
+    deleted.appendChild(deletedText);
+    check.appendChild(checkDone);
+    check.classList.add('doneBtn');
+    deleted.classList.add('deleteBtn');
+    let listcontent = document.createTextNode(userInput.value)
+    listP.appendChild(listcontent);
+    newList.appendChild(listP);
+    newList.appendChild(deleted);
+    newList.appendChild(check);
+    todayList.appendChild(newList);
+
+    // Delete Tasks
+    deleted.addEventListener('click', function () {
+        deleted.parentElement.remove();
+    })
+
+    deleted.addEventListener("mouseover", func, false);
+    deleted.addEventListener("mouseout", func1, false);
+
+    function func() {
+        newList.setAttribute("style", "border:1px solid red;")
+    }
+    function func1() {
+        newList.setAttribute("style", "border:none;")
+    }
+
+
+    //Complete Tasks
+    check.addEventListener('click', function () {
+        if (newList.classList.contains('done')) {
+            check.parentElement.remove();
+            todayList.appendChild(newList);
+            check.innerHTML = 'Complete'
+        }
+        else {
+            check.parentElement.remove();
+            completedList.appendChild(newList);
+            check.innerHTML = 'Redo';
+        }
+
+        newList.classList.toggle('done')
+        newList.classList.toggle('finished')
+        check.classList.toggle('doneBtn');
+        check.classList.toggle('redoBtn')
+    })
+
+}
+
+userInput.addEventListener('keypress', function (e) {
+    if (userInput.value == '' && e.key === 'Enter') {
+        warnMsg()
+    }
+    else if (e.key === 'Enter') {
+        doIt()
+        userInput.value = '';
+    } else {
+        return
+    }
+
+})
 addBtn.addEventListener('click', function () {
     if (userInput.value == '') {
         warnMsg()
     }
     else {
-        let newList = document.createElement('li');
-        let listP = document.createElement('label');
-        let deleted = document.createElement('span');
-        let check = document.createElement('span');
-        let deletedText = document.createTextNode('X')
-        let checkDone = document.createTextNode('Complete')
-        deleted.appendChild(deletedText);
-        check.appendChild(checkDone);
-        check.classList.add('doneBtn');
-        deleted.classList.add('deleteBtn');
-        let listcontent = document.createTextNode(userInput.value)
-        listP.appendChild(listcontent);
-        newList.appendChild(listP);
-        newList.appendChild(deleted);
-        newList.appendChild(check);
-        todayList.appendChild(newList);
-
-        // Delete Tasks
-        deleted.addEventListener('click', function () {
-            deleted.parentElement.remove();
-        })
-
-        deleted.addEventListener("mouseover", func, false);
-        deleted.addEventListener("mouseout", func1, false);
-
-        function func() {
-            newList.setAttribute("style", "border:1px solid red;")
-        }
-        function func1() {
-            newList.setAttribute("style", "border:none;")
-        }
-
-
-        //Complete Tasks
-        check.addEventListener('click', function () {
-            if (newList.classList.contains('done')) {
-                check.parentElement.remove();
-                todayList.appendChild(newList);
-                check.innerHTML = 'Complete'
-            }
-            else {
-                check.parentElement.remove();
-                completedList.appendChild(newList);
-                check.innerHTML = 'Redo';
-            }
-
-            newList.classList.toggle('done')
-            newList.classList.toggle('finished')
-            check.classList.toggle('doneBtn');
-            check.classList.toggle('redoBtn')
-        })
+        doIt();
+        userInput.value = '';
     }
 })
